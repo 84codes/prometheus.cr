@@ -1,0 +1,12 @@
+name: prometheus
+version: 1.0.0
+
+authors:
+  - Magnus Landerblom <mange@84codes.com>
+
+    
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+
+license: MIT

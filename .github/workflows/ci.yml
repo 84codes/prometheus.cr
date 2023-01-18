@@ -1,0 +1,41 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+    tags:        
+      - v*
+
+jobs:
+  spec:
+    name: Spec
+    runs-on: ubuntu-latest
+    container: 84codes/crystal:latest-alpine
+    steps:
+      - uses: actions/checkout@v3
+      - name: Shards install
+        run: shards install --production
+      - name: Spec
+        run: crystal spec --no-color --order random
+  format:
+    name: Formatting
+    runs-on: ubuntu-latest
+    container: 84codes/crystal:latest-alpine
+    steps:
+      - uses: actions/checkout@v3
+      - name: Format check
+        run: crystal tool format --check
+  lint:
+    name: Lint/Ameba
+    runs-on: ubuntu-latest
+    container: 84codes/crystal:latest-alpine
+    steps:
+      - name: Install make
+        run: apk add --no-cache make yaml-dev
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Shards install
+        run: shards install
+      - name: Spec
+        run: bin/ameba --no-color
